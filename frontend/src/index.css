@@ -1,0 +1,709 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* min-height (not a fixed height) so the page can grow taller than the viewport and the
+   browser's normal document scroll always works, however long a dashboard's content is. */
+html, body, #root {
+  min-height: 100%;
+}
+
+html {
+  overflow-y: auto;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img, svg, video, canvas { max-width: 100%; }
+
+body {
+  overflow-x: hidden; /* only horizontal scroll is ever unwanted here */
+}
+
+body {
+  background-color: #F3F1EC;
+  color: #16213E;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+}
+
+h1, h2, h3, .font-serif {
+  font-family: 'Source Serif 4', Georgia, serif;
+}
+
+::selection {
+  background-color: #D9AE5E;
+  color: #0F1729;
+}
+
+/* Thin, deliberate scrollbars instead of default chunky ones */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #DAD5C8; border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.field {
+  border: 1px solid #DAD5C8;
+  background: #FFFFFF;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.875rem;
+  color: #16213E;
+  border-radius: 4px;
+  min-width: min(160px, 100%);
+  max-width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.field:hover:not(:disabled) {
+  border-color: #B8AF9B;
+}
+.field:focus {
+  outline: none;
+  border-color: #B98B34;
+  box-shadow: 0 0 0 3px rgba(185, 139, 52, 0.15);
+}
+.field:disabled {
+  background: #F3F1EC;
+  color: #9CA3AF;
+}
+
+.btn-primary {
+  background: #16213E;
+  color: #F3F1EC;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(15, 23, 41, 0.12);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+.btn-primary:hover { background: #2C3B62; box-shadow: 0 2px 6px rgba(15, 23, 41, 0.18); }
+.btn-primary:active { transform: translateY(1px); }
+.btn-primary:disabled { background: #9CA3AF; cursor: not-allowed; box-shadow: none; }
+
+.btn-secondary {
+  border: 1px solid #DAD5C8;
+  color: #16213E;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 4px;
+  background: white;
+  box-shadow: 0 1px 2px rgba(15, 23, 41, 0.04);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+.btn-secondary:hover { border-color: #B98B34; box-shadow: 0 2px 6px rgba(15, 23, 41, 0.08); }
+.btn-secondary:active { transform: translateY(1px); }
+.btn-secondary:disabled { color: #9CA3AF; cursor: not-allowed; box-shadow: none; }
+
+/* Small pill/tab used for sub-filters like "Section A", "Pending Verification" etc,
+   with a count bubble -- same palette, just a tidy chip shape. */
+.pill-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.15rem;
+  font-size: 0.875rem;
+  color: #2C3B62;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.pill-tab:hover { color: #16213E; }
+.pill-tab.active {
+  color: #16213E;
+  font-weight: 600;
+  border-bottom-color: #B98B34;
+}
+.pill-tab .count {
+  background: #F3F1EC;
+  color: #2C3B62;
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.pill-tab.active .count {
+  background: #16213E;
+  color: #F3F1EC;
+}
+
+/* ---- Modern theme: only active inside <Layout modern> (HOD + Staff dashboards) ---- */
+.modern, .modern h1, .modern h2, .modern h3, .modern h4, .modern .font-serif {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #0F172A;
+}
+.modern .field { border-color: #CBD5E1; border-radius: 8px; }
+.modern .field:hover:not(:disabled) { border-color: #94A3B8; }
+.modern .field:focus { border-color: #1D4ED8; box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15); }
+.modern .field:disabled { background: #F1F5F9; color: #64748B; }
+.modern .filters-grid .field { width: 100%; min-width: 0; }
+.modern .btn-primary { background: #1D4ED8; color: #fff; border-radius: 8px; box-shadow: none; }
+.modern .btn-primary:hover { background: #1E40AF; box-shadow: none; }
+.modern .btn-primary:disabled { background: #94A3B8; }
+.modern .btn-secondary { border-color: #E2E8F0; border-radius: 8px; box-shadow: none; }
+.modern .btn-secondary:hover:not(:disabled) { border-color: #1D4ED8; color: #1D4ED8; box-shadow: none; }
+.modern .pill-tab { color: #475569; }
+.modern .pill-tab:hover { color: #0F172A; }
+.modern .pill-tab.active { color: #1D4ED8; border-bottom-color: #1D4ED8; }
+.modern .pill-tab .count { background: #F1F5F9; color: #475569; }
+.modern .pill-tab.active .count { background: #DBEAFE; color: #1D4ED8; }
+.modern .stat-card { border-radius: 12px; box-shadow: none; }
+.modern .stat-card.border-teal\/50 { border-color: #6EE7B7; box-shadow: none; }
+.modern .text-navy-light { color: #64748B; }
+.modern .text-brass-dark { color: #1D4ED8; }
+.modern .text-teal { color: #047857; }
+.modern .bg-paper { background-color: #F1F5F9; }
+.modern .border-line { border-color: #E2E8F0; }
+.modern nav[aria-label="Breadcrumb"] span.font-medium {
+  background: #EFF6FF; color: #1D4ED8; border-color: transparent; border-radius: 8px;
+}
+.modern .bg-white\/60.shadow-sm { background: #fff; border-radius: 12px; box-shadow: none; }
+.modern .bg-white.border-line { border-radius: 12px; }
+.modern .bg-navy-deep\/40 { background: rgba(15, 23, 42, 0.45); }
+.modern .text-brick { color: #BE123C; }
+.modern .field.search-input { padding: 0.65rem 0.75rem 0.65rem 2.75rem; }
+.modern .field.search-input.pr-icon { padding-right: 2.5rem; }
+.modern .field.field-lg { padding: 0.65rem 0.75rem; }
+.modern table thead tr { background: #EFF6FF; }
+.modern table thead th { color: #1E40AF; }
+.modern table tbody tr:hover { background: #F5F9FF; }
+.modern .pill-tab.active .count { background: #1D4ED8; color: #fff; }
+.modern .chart-glow { border-radius: 12px; transition: box-shadow 0.3s ease; }
+.modern .chart-glow-blue { box-shadow: 0 6px 28px -8px rgba(59,130,246,0.30); }
+.modern .chart-glow-blue:hover { box-shadow: 0 10px 34px -6px rgba(59,130,246,0.45); }
+.modern .chart-glow-violet { box-shadow: 0 6px 28px -8px rgba(139,92,246,0.30); }
+.modern .chart-glow-violet:hover { box-shadow: 0 10px 34px -6px rgba(139,92,246,0.45); }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in-up { animation: fadeInUp 0.5s ease-out; }
+
+/* ---- Login page ---- */
+@keyframes shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-6px); } 40%,80% { transform: translateX(6px); } }
+.animate-shake { animation: shake 0.4s ease-in-out; }
+@keyframes floatSlow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.animate-float-slow { animation: floatSlow 7s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-shake, .animate-float-slow, .animate-fade-in-up { animation: none; }
+}
+
+/* Login scroll area is only a safety net for very short windows. Its scrollbar is hidden so it can never
+   appear/disappear and nudge the centred layout sideways (scrolling by wheel / touch / keys still works). */
+.login-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+.login-scroll::-webkit-scrollbar { display: none; }
+
+/* ---- Login card: a single light line travelling around the border ----
+   .beam-ring is a 2px frame (the card's border area only -- the mask cuts out everything inside),
+   .beam-light slides along the rounded-rectangle path of the card, and .beam-glow adds the soft
+   halo. The card itself, its white background and the form are not touched. */
+.beam-glow {
+  position: absolute;
+  inset: 0; /* the wrapper around the card is exactly the card's border box */
+  border-radius: calc(1.5rem + 1px); /* rounded-3xl + border */
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform; /* own compositor layer: the animation repaints only itself, never the frosted card */
+  filter: drop-shadow(0 0 2px rgba(79, 70, 229, 0.95)) drop-shadow(0 0 8px rgba(56, 189, 248, 0.7));
+}
+.beam-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px; /* thickness of the line */
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.beam-light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px; /* length of the line */
+  height: 24px;
+  background: linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.55) 45%, #6366f1 72%, #22d3ee 100%);
+  offset-path: inset(0 round calc(1.5rem + 1px));
+  offset-anchor: 100% 50%; /* the bright head leads, the tail trails behind */
+  offset-rotate: auto;
+  offset-distance: 0%;
+  animation: beamTravel 6s linear infinite;
+}
+@keyframes beamTravel { to { offset-distance: 100%; } }
+
+/* Browsers without offset-path on shapes: spin a conic gradient behind the same 2px frame. */
+@supports not (offset-path: inset(0 round 1px)) {
+  .beam-light {
+    offset-path: none;
+    top: 50%;
+    left: 50%;
+    width: 220%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    background: conic-gradient(from 0deg, transparent 0 80%, rgba(99, 102, 241, 0.6) 90%, #22d3ee 100%);
+    transform: translate(-50%, -50%) rotate(0deg);
+    animation: beamSpin 6s linear infinite;
+  }
+}
+@keyframes beamSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .beam-glow { display: none; }
+}
+
+
+/* =====================================================================
+   RESPONSIVE: phone (<640px), tablet (640-1023px), laptop/desktop (>=1024px)
+   ===================================================================== */
+
+/* Safe areas for notched phones (needs viewport-fit=cover in index.html) */
+.modern header.fixed {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+.modern main {
+  padding-left: max(0.75rem, env(safe-area-inset-left));
+  padding-right: max(0.75rem, env(safe-area-inset-right));
+}
+@media (min-width: 640px) {
+  .modern main { padding-left: max(1.5rem, env(safe-area-inset-left)); padding-right: max(1.5rem, env(safe-area-inset-right)); }
+}
+
+/* Taps respond instantly (no 300ms delay / accidental double-tap zoom) */
+button, a, input, select, textarea, label, [role="button"], [role="tab"] { touch-action: manipulation; }
+
+/* Phones */
+@media (max-width: 639px) {
+  /* 16px inputs stop iOS Safari from zooming the page when a field is focused */
+  .field, .modern .field, input, select, textarea { font-size: 16px; }
+  .field { min-width: 0; width: 100%; }
+
+  /* Comfortable touch targets + a pressed-in feel */
+  .btn-primary, .btn-secondary { min-height: 44px; padding-left: 1rem; padding-right: 1rem; }
+  .btn-primary:active, .btn-secondary:active { transform: scale(0.97); }
+  .modern .field { min-height: 44px; }
+
+  /* Button groups: full-width, two per row where they fit */
+  .action-bar > * { flex: 1 1 calc(50% - 0.25rem); justify-content: center; }
+  .action-bar > .btn-primary, .action-bar > .btn-secondary { justify-content: center; }
+
+  /* Modals use almost the whole screen */
+  .modern table th, .modern table td { padding-left: 0.75rem; padding-right: 0.75rem; }
+}
+
+/* Tablets and up keep original compact controls */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .action-bar > * { flex: 0 0 auto; }
+}
+
+/* Very small phones (e.g. 320px wide) */
+@media (max-width: 359px) {
+  .action-bar > * { flex-basis: 100%; }
+}
+
+/* Wide tables always scroll inside their own box, never the whole page */
+.overflow-x-auto { -webkit-overflow-scrolling: touch; }
+
+/* Large screens: keep content readable instead of stretching */
+@media (min-width: 1536px) {
+  .modern main, .modern header.fixed > div { max-width: 88rem; }
+}
+
+
+/* ---- Sheets, dialogs and drawers (components/Modal.jsx) ---- */
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes pop { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes drawerIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.animate-fade { animation: fade 0.2s ease-out; }
+/* Phones: slide up as a bottom sheet. Tablets and up: pop in (dialog) or slide in from the right (drawer). */
+.modal-anim { animation: sheetUp 0.28s cubic-bezier(0.22, 1, 0.36, 1); transition: transform 0.2s ease-out; }
+@media (min-width: 640px) {
+  .modal-anim { animation: pop 0.2s ease-out; }
+  .modal-anim.modal-drawer { animation: drawerIn 0.28s cubic-bezier(0.22, 1, 0.36, 1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade, .modal-anim, .modal-anim.modal-drawer { animation: none; }
+}
+
+
+/* =====================================================================
+   UPGRADE: navbar, floating dock, logout flow, welcome banner, toasts
+   ===================================================================== */
+
+/* Slim colour line along the top of the header */
+.header-accent { height: 3px; background: linear-gradient(90deg, #1d4ed8, #4f46e5, #f5b93b, #4f46e5, #1d4ed8); background-size: 200% 100%; animation: accentFlow 9s linear infinite; }
+@keyframes accentFlow { to { background-position: 200% 0; } }
+
+.theme-spin { display: inline-flex; animation: themeSpin 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes themeSpin { from { transform: rotate(-90deg) scale(0.5); opacity: 0; } to { transform: none; opacity: 1; } }
+.menu-pop { transform-origin: top right; animation: menuPop 0.16s ease-out; }
+@keyframes menuPop { from { opacity: 0; transform: translateY(-6px) scale(0.97); } to { opacity: 1; transform: none; } }
+.offline-bar { animation: menuPop 0.2s ease-out; }
+
+/* Bottom dock (phones) */
+.dock-glide { transition: transform 0.38s cubic-bezier(0.34, 1.3, 0.5, 1); }
+.nav-pop { display: inline-flex; animation: navPop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes navPop { 0% { transform: scale(0.7) translateY(3px); } 60% { transform: scale(1.18) translateY(-2px); } 100% { transform: none; } }
+.dock-fab { animation: fabBreath 3.2s ease-in-out infinite; }
+@keyframes fabBreath { 0%, 100% { box-shadow: 0 10px 22px -6px rgba(79, 70, 229, 0.55); } 50% { box-shadow: 0 14px 30px -4px rgba(124, 58, 237, 0.7); } }
+
+/* Desktop segmented tabs */
+.seg-thumb { transition: left 0.3s cubic-bezier(0.22, 1, 0.36, 1), width 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* ---- Logout confirmation ---- */
+.logout-orb { background: radial-gradient(circle at 30% 25%, #fff1f2, #ffe4e6 70%); box-shadow: 0 0 0 10px rgba(244, 63, 94, 0.08), 0 0 0 22px rgba(244, 63, 94, 0.04); animation: orbPulse 2.4s ease-in-out infinite; }
+@keyframes orbPulse { 50% { box-shadow: 0 0 0 14px rgba(244, 63, 94, 0.1), 0 0 0 30px rgba(244, 63, 94, 0.03); } }
+.logout-door { display: inline-flex; animation: doorNudge 2.4s ease-in-out infinite; }
+@keyframes doorNudge { 0%, 60%, 100% { transform: translateX(0); } 75% { transform: translateX(5px); } }
+
+/* ---- Sign-out farewell screen (components/SignOutScreen.jsx) ---- */
+.signout-screen { animation: fade 0.2s ease-out; }
+.signout-bg {
+  background: radial-gradient(120% 120% at 100% 0%, #6366f1 0%, #1e3a8a 42%, #0b1220 100%);
+  clip-path: circle(0% at calc(100% - 3rem) 2rem);
+  animation: soReveal 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+@keyframes soReveal { to { clip-path: circle(150% at calc(100% - 3rem) 2rem); } }
+.signout-bubble { position: absolute; border-radius: 999px; pointer-events: none; opacity: 0; animation: soBubble 1.6s 0.4s ease-out forwards; }
+.signout-bubble-a { width: 16rem; height: 16rem; left: -5rem; bottom: -6rem; background: radial-gradient(circle, rgba(56, 189, 248, 0.35), transparent 70%); }
+.signout-bubble-b { width: 13rem; height: 13rem; right: -4rem; bottom: 12%; background: radial-gradient(circle, rgba(167, 139, 250, 0.4), transparent 70%); }
+@keyframes soBubble { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+.signout-badge { opacity: 0; animation: soPop 0.5s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+@keyframes soPop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+.signout-ring { stroke-dasharray: 100; stroke-dashoffset: 100; animation: soDraw 0.8s 0.35s ease-out forwards; }
+.signout-tick { stroke-dasharray: 100; stroke-dashoffset: 100; animation: soDraw 0.45s 0.95s ease-out forwards; }
+@keyframes soDraw { to { stroke-dashoffset: 0; } }
+.signout-text-1 { opacity: 0; animation: soText1 1s 0.3s ease both; }
+@keyframes soText1 { 0% { opacity: 0; transform: translateY(8px); } 25%, 65% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-8px); } }
+.signout-text-2 { opacity: 0; animation: soText2 0.4s 1.25s ease forwards; }
+@keyframes soText2 { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.signout-text-3 { opacity: 0; animation: soText2 0.4s 1.45s ease forwards; }
+.signout-progress { width: 0; animation: soBar linear forwards; }
+@keyframes soBar { to { width: 100%; } }
+
+/* ---- Welcome banner ---- */
+.welcome-banner {
+  background:
+    radial-gradient(60% 120% at 100% 0%, rgba(245, 185, 59, 0.28) 0%, transparent 60%),
+    linear-gradient(125deg, #0b1437 0%, #1a2a78 52%, #4338ca 100%);
+  box-shadow: 0 22px 44px -22px rgba(30, 42, 120, 0.75);
+  animation: fadeInUp 0.5s ease-out;
+}
+/* fine dot grid fading in from the right */
+.welcome-banner::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  background-size: 18px 18px;
+  -webkit-mask-image: linear-gradient(100deg, transparent 35%, #000 100%);
+  mask-image: linear-gradient(100deg, transparent 35%, #000 100%);
+}
+.wb-avatar {
+  width: 3.25rem; height: 3.25rem; border-radius: 1rem; align-items: center; justify-content: center; display: flex;
+  font-size: 1.15rem; font-weight: 700; letter-spacing: 0.02em; color: #3b2a05;
+  background: linear-gradient(135deg, #fde68a, #f59e0b);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.14), 0 10px 20px -8px rgba(245, 158, 11, 0.7);
+}
+@media (min-width: 640px) { .wb-avatar { width: 4rem; height: 4rem; border-radius: 1.15rem; font-size: 1.4rem; } }
+.wb-role { display: inline-flex; align-items: center; border-radius: 999px; padding: 0.15rem 0.65rem; font-size: 0.75rem; font-weight: 600; color: #fef3c7; background: rgba(251, 191, 36, 0.18); border: 1px solid rgba(253, 230, 138, 0.35); }
+.wb-chip { display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 999px; padding: 0.3rem 0.8rem; font-size: 0.75rem; font-weight: 500; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.16); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+
+/* ---- Toasts ---- */
+.toast-card { animation: toastIn 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes toastIn { from { opacity: 0; transform: translateY(-10px) scale(0.97); } to { opacity: 1; transform: none; } }
+.toast-icon { animation: soPop 0.4s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.toast-bar { width: 100%; transform-origin: left; animation: toastBar 4s linear forwards; }
+@keyframes toastBar { to { transform: scaleX(0); } }
+
+/* Dashboard sections ease in when you switch tabs */
+.tab-fade { animation: fadeInUp 0.35s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .header-accent, .theme-spin, .menu-pop, .offline-bar, .nav-pop, .dock-fab, .logout-orb, .logout-door,
+  .welcome-banner, .toast-card, .toast-icon, .toast-bar, .tab-fade, .signout-bubble { animation: none; }
+  .dock-glide, .seg-thumb { transition: none; }
+  .signout-screen, .signout-bg { animation: none; clip-path: none; }
+  .signout-badge, .signout-text-2, .signout-text-3, .signout-bubble { opacity: 1; animation: none; }
+  .signout-text-1 { display: none; }
+  .signout-ring, .signout-tick { stroke-dashoffset: 0; animation: none; }
+  .signout-progress { width: 100%; animation: none; }
+}
+
+/* =====================================================================
+   DARK MODE -- only inside the signed-in app (.app-shell); the login page stays as designed.
+   The `dark` class is put on <html> by context/ThemeContext.jsx.
+   ===================================================================== */
+html.dark body { background-color: #0B1220; }
+html.dark ::-webkit-scrollbar-thumb { background: #2B3A5C; }
+html.dark .app-shell { color: #E2E8F0; color-scheme: dark; }
+html.dark .app-shell.bg-slate-50 { background-color: #0B1220; }
+html.dark .app-shell h1, html.dark .app-shell h2, html.dark .app-shell h3, html.dark .app-shell h4 { color: #F1F5F9; }
+
+html.dark .app-shell .bg-white { background-color: #101A30; }
+html.dark .app-shell .bg-white\/95, html.dark .app-shell .bg-white\/90, html.dark .app-shell .bg-white\/85, html.dark .app-shell .bg-white\/60 { background-color: rgba(16, 26, 48, 0.88); }
+html.dark .app-shell .bg-slate-50\/80, html.dark .app-shell .bg-slate-50\/70, html.dark .app-shell .bg-slate-50\/50 { background-color: rgba(27, 39, 66, 0.55); }
+html.dark .app-shell .bg-slate-50, html.dark .app-shell .bg-paper, html.dark .app-shell .bg-paper\/70 { background-color: #16213A; }
+html.dark .app-shell .bg-slate-100, html.dark .app-shell .bg-line, html.dark .app-shell .bg-line\/60 { background-color: #1B2742; }
+html.dark .app-shell .bg-slate-200, html.dark .app-shell .bg-slate-200\/80 { background-color: #26324D; }
+html.dark .app-shell .bg-slate-300 { background-color: #3A4B70; }
+html.dark .app-shell .bg-blue-50, html.dark .app-shell .bg-blue-50\/60, html.dark .app-shell .bg-indigo-50 { background-color: rgba(59, 130, 246, 0.12); }
+html.dark .app-shell .bg-blue-100 { background-color: rgba(59, 130, 246, 0.22); }
+html.dark .app-shell .bg-rose-50 { background-color: rgba(244, 63, 94, 0.12); }
+html.dark .app-shell .bg-rose-100 { background-color: rgba(244, 63, 94, 0.2); }
+html.dark .app-shell .bg-emerald-50, html.dark .app-shell .bg-emerald-100 { background-color: rgba(16, 185, 129, 0.15); }
+html.dark .app-shell .bg-amber-50 { background-color: rgba(245, 158, 11, 0.14); }
+html.dark .app-shell .bg-violet-100 { background-color: rgba(139, 92, 246, 0.2); }
+html.dark .app-shell .bg-brick\/10 { background-color: rgba(244, 63, 94, 0.14); }
+
+html.dark .app-shell .text-slate-900, html.dark .app-shell .text-slate-800, html.dark .app-shell .text-ink,
+html.dark .app-shell .text-navy, html.dark .app-shell .text-navy-deep { color: #F1F5F9; }
+html.dark .app-shell .text-slate-700 { color: #E2E8F0; }
+html.dark .app-shell .text-slate-600 { color: #CBD5E1; }
+html.dark .app-shell .text-slate-500, html.dark .app-shell .text-slate-400, html.dark .app-shell .text-navy-light, html.dark .app-shell .text-navy-light\/50 { color: #94A3B8; }
+html.dark .app-shell .text-blue-700, html.dark .app-shell .text-blue-600, html.dark .app-shell .text-brass-dark { color: #93C5FD; }
+html.dark .app-shell .text-rose-700, html.dark .app-shell .text-rose-600, html.dark .app-shell .text-brick { color: #FDA4AF; }
+html.dark .app-shell .text-emerald-700, html.dark .app-shell .text-emerald-600, html.dark .app-shell .text-teal { color: #6EE7B7; }
+html.dark .app-shell .text-amber-800, html.dark .app-shell .text-amber-700, html.dark .app-shell .text-amber-600 { color: #FCD34D; }
+html.dark .app-shell .text-violet-700, html.dark .app-shell .text-indigo-500 { color: #C4B5FD; }
+html.dark .app-shell .text-sky-700 { color: #7DD3FC; }
+/* Buttons that keep a white label on a solid colour */
+html.dark .app-shell .logout-btn:hover, html.dark .app-shell .bg-rose-600.text-white, html.dark .app-shell .bg-rose-700.text-white { color: #fff; }
+
+html.dark .app-shell .border-slate-100, html.dark .app-shell .border-slate-200, html.dark .app-shell .border-slate-200\/80,
+html.dark .app-shell .border-slate-300, html.dark .app-shell .border-line { border-color: #26324D; }
+html.dark .app-shell .border-rose-100, html.dark .app-shell .border-rose-200, html.dark .app-shell .border-rose-300 { border-color: rgba(244, 63, 94, 0.35); }
+html.dark .app-shell .border-emerald-200, html.dark .app-shell .border-emerald-300 { border-color: rgba(16, 185, 129, 0.35); }
+html.dark .app-shell .border-amber-200 { border-color: rgba(245, 158, 11, 0.35); }
+html.dark .app-shell .border-blue-300 { border-color: rgba(59, 130, 246, 0.45); }
+html.dark .app-shell .divide-line > :not([hidden]) ~ :not([hidden]) { border-color: #26324D; }
+html.dark .app-shell .ring-slate-50 { --tw-ring-color: #0B1220; }
+html.dark .app-shell .ring-slate-200 { --tw-ring-color: #26324D; }
+
+html.dark .app-shell .field, html.dark .app-shell input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), html.dark .app-shell select, html.dark .app-shell textarea {
+  background-color: #0D1629; color: #E2E8F0; border-color: #2B3A5C;
+}
+html.dark .app-shell .field::placeholder, html.dark .app-shell input::placeholder, html.dark .app-shell textarea::placeholder { color: #64748B; }
+html.dark .app-shell .field:disabled { background-color: #16213A; color: #64748B; }
+html.dark .app-shell .modern .field:hover:not(:disabled), html.dark .app-shell .field:hover:not(:disabled) { border-color: #3F5180; }
+html.dark .app-shell .field:focus { border-color: #60A5FA; box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2); }
+html.dark .app-shell .btn-secondary { background-color: #101A30; color: #E2E8F0; border-color: #2B3A5C; }
+html.dark .app-shell .btn-secondary:hover:not(:disabled) { border-color: #60A5FA; color: #93C5FD; }
+html.dark .app-shell .pill-tab { color: #94A3B8; }
+html.dark .app-shell .pill-tab:hover { color: #F1F5F9; }
+html.dark .app-shell .pill-tab.active { color: #93C5FD; border-bottom-color: #60A5FA; }
+html.dark .app-shell .pill-tab .count { background: #1B2742; color: #CBD5E1; }
+html.dark .app-shell .pill-tab.active .count { background: #2563EB; color: #fff; }
+
+html.dark .app-shell table thead tr { background: rgba(59, 130, 246, 0.14); }
+html.dark .app-shell table thead th { color: #93C5FD; }
+html.dark .app-shell table tbody tr:hover { background: rgba(59, 130, 246, 0.08); }
+html.dark .app-shell nav[aria-label="Breadcrumb"] span.font-medium { background: rgba(59, 130, 246, 0.18); color: #93C5FD; }
+html.dark .app-shell .stat-card.border-teal\/50 { border-color: rgba(110, 231, 183, 0.4); }
+html.dark .app-shell .stat-card { background-color: #101A30; }
+
+html.dark .app-shell .seg-thumb { background-color: #2A3A60; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35); }
+html.dark .app-shell .seg { background-color: #16213A; }
+html.dark .app-shell .dock { box-shadow: 0 10px 34px -6px rgba(0, 0, 0, 0.7); }
+html.dark .app-shell .dock-glide > span { background-image: none; background-color: rgba(59, 130, 246, 0.22); }
+html.dark .app-shell .logout-orb { background: radial-gradient(circle at 30% 25%, #4c1d2b, #2a1019 70%); }
+html.dark .app-shell .toast-card, html.dark .app-shell .menu-pop { box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.7); }
+
+html.dark .app-shell .recharts-text, html.dark .app-shell .recharts-cartesian-axis-tick-value { fill: #94A3B8; }
+html.dark .app-shell .recharts-cartesian-grid line { stroke: #26324D; }
+html.dark .app-shell .recharts-legend-item-text { color: #CBD5E1 !important; }
+html.dark .app-shell .recharts-default-tooltip { background-color: #101A30 !important; border-color: #26324D !important; }
+html.dark .app-shell .recharts-tooltip-label, html.dark .app-shell .recharts-tooltip-item { color: #E2E8F0 !important; }
+html.dark .app-shell .recharts-tooltip-cursor { fill: rgba(148, 163, 184, 0.12); }
+
+@media (hover: hover) and (pointer: fine) {
+  html.dark .app-shell .hover\:bg-slate-50:hover { background-color: #17223B; }
+  html.dark .app-shell .hover\:bg-slate-100:hover { background-color: #1F2D4D; }
+  html.dark .app-shell .hover\:text-slate-800:hover, html.dark .app-shell .hover\:text-slate-700:hover { color: #F1F5F9; }
+}
+html.dark .app-shell .knob { background-color: #fff; }
+html.dark .app-shell .bg-slate-900 { background-color: #2A3A60; }
+
+
+/* =====================================================================
+   REDESIGN: brand mark, navigation bar, person chip, log out button
+   ===================================================================== */
+
+/* page backdrop: very soft indigo + gold glow instead of flat grey (light mode only) */
+html:not(.dark) .app-shell.bg-slate-50 {
+  background:
+    radial-gradient(900px 380px at 88% -60px, rgba(99, 102, 241, 0.11), transparent 62%),
+    radial-gradient(700px 320px at 0% 0%, rgba(245, 185, 59, 0.09), transparent 60%),
+    #f5f7fd;
+}
+
+.brand-mark { background: #fff; border: 1px solid #e2e8f0; box-shadow: 0 0 0 3px rgba(245, 185, 59, 0.22), 0 4px 10px -4px rgba(15, 23, 42, 0.2); }
+
+/* --- floating navigation bar ("island"): sits inside the page margins with a soft gold glow underneath --- */
+.island {
+  position: relative; display: flex; align-items: center; gap: 0.75rem; height: 3.5rem; padding: 0 0.5rem 0 0.6rem;
+  border-radius: 1.25rem; background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 10px 30px -16px rgba(30, 42, 120, 0.35), 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+  transition: box-shadow 0.3s, background-color 0.3s;
+}
+.island::after {
+  content: ""; position: absolute; left: 14%; right: 14%; bottom: -1px; height: 2px; border-radius: 2px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, #f5b93b, transparent); opacity: 0.85;
+}
+.island.island-up { box-shadow: 0 18px 40px -16px rgba(30, 42, 120, 0.5), 0 1px 0 rgba(255, 255, 255, 0.7) inset; background: rgba(255, 255, 255, 0.92); }
+@media (min-width: 640px) { .island { height: 4rem; gap: 1.5rem; padding: 0 0.75rem 0 0.75rem; border-radius: 1.4rem; } }
+
+/* --- section links inside the bar (large screens): a pill track with a sliding indigo pill --- */
+.hnav { padding: 0.25rem; border-radius: 999px; background: rgba(79, 70, 229, 0.08); border: 1px solid rgba(79, 70, 229, 0.1); }
+.hnav-item {
+  position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.05rem; border-radius: 999px;
+  font-size: 0.875rem; font-weight: 500; color: #475569; transition: color 0.25s;
+}
+.hnav-item:hover { color: #1e1b4b; }
+.hnav-item.on { color: #fff; font-weight: 600; }
+.hnav-item:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
+.hnav-thumb {
+  position: absolute; top: 0.25rem; bottom: 0.25rem; border-radius: 999px;
+  background: linear-gradient(135deg, #4338ca, #6366f1); box-shadow: 0 6px 14px -6px rgba(67, 56, 202, 0.7);
+  transition: left 0.35s cubic-bezier(0.22, 1, 0.36, 1), width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --- theme button --- */
+.nav-icon-btn { color: #64748b; }
+.nav-icon-btn:hover { color: #1e293b; background: rgba(79, 70, 229, 0.07); }
+
+/* --- person chip --- */
+.who-chip { background: #fff; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05); transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s; }
+.who-chip:hover { border-color: #c7d2fe; box-shadow: 0 6px 16px -8px rgba(79, 70, 229, 0.45); }
+.who-name { color: #0f172a; }
+.who-role { color: #64748b; }
+.who-avatar { color: #3b2a05; background: linear-gradient(135deg, #fde68a, #f59e0b); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5); }
+.profile-hero { background: radial-gradient(80% 140% at 100% 0%, rgba(245, 185, 59, 0.3), transparent 60%), linear-gradient(125deg, #0b1437, #1e2a78 60%, #4338ca); }
+
+/* --- log out button: dark pill with a rose power dot --- */
+.logout-pill {
+  display: inline-flex; align-items: center; gap: 0.6rem; height: 2.75rem; padding: 0 1rem 0 0.3rem;
+  border-radius: 999px; color: #f8fafc; font-size: 0.875rem; font-weight: 600; white-space: nowrap;
+  background: linear-gradient(180deg, #1e293b, #0f172a);
+  box-shadow: 0 8px 18px -8px rgba(15, 23, 42, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 0.15s, box-shadow 0.25s;
+}
+.logout-pill .lp-dot {
+  width: 2.15rem; height: 2.15rem; border-radius: 999px; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(135deg, #fb7185, #e11d48);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.logout-pill:hover { box-shadow: 0 12px 24px -8px rgba(225, 29, 72, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+.logout-pill:hover .lp-dot { transform: rotate(-14deg) scale(1.08); }
+.logout-pill:active { transform: scale(0.96); }
+.logout-pill:focus-visible { outline: 2px solid #fb7185; outline-offset: 2px; }
+@media (max-width: 639px) {
+  .logout-pill { width: 2.5rem; height: 2.5rem; padding: 0; justify-content: center; }
+  .logout-pill .lp-dot { width: 2.5rem; height: 2.5rem; }
+  .logout-pill .lp-label { display: none; }
+}
+
+/* --- dark mode --- */
+html.dark .brand-mark { background: #e2e8f0; border-color: #334155; }
+html.dark .island { background: rgba(16, 26, 48, 0.8); border-color: #26324d; box-shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.75), 0 1px 0 rgba(255, 255, 255, 0.04) inset; }
+html.dark .island.island-up { background: rgba(16, 26, 48, 0.94); }
+html.dark .hnav { background: rgba(129, 140, 248, 0.1); border-color: rgba(129, 140, 248, 0.16); }
+html.dark .hnav-item { color: #94a3b8; }
+html.dark .hnav-item:hover { color: #e2e8f0; }
+html.dark .hnav-item.on { color: #fff; }
+html.dark .nav-icon-btn { color: #94a3b8; }
+html.dark .nav-icon-btn:hover { color: #e2e8f0; background: rgba(129, 140, 248, 0.12); }
+html.dark .who-chip { background: #101a30; border-color: #26324d; }
+html.dark .who-chip:hover { border-color: #4f46e5; }
+html.dark .who-name { color: #f1f5f9; }
+html.dark .who-role { color: #94a3b8; }
+html.dark .logout-pill { background: rgba(255, 255, 255, 0.07); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hnav-thumb, .logout-pill, .logout-pill .lp-dot, .who-chip { transition: none; }
+}
+
+
+/* =====================================================================
+   DARK MODE FIXES
+   Dialogs (components/Modal.jsx) are the .app-shell element themselves, so the "descendant" rules
+   above never reached their own background -- white panel, pale text. These rules fix that and fill
+   the remaining gaps (hover / active tints, teal + brass tints, charts).
+   ===================================================================== */
+html.dark .app-shell.bg-white { background-color: #101A30; }
+html.dark .modal-anim { box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.85), 0 0 0 1px #26324D; }
+html.dark .app-shell .bg-teal\/15, html.dark .app-shell .bg-teal-light\/30 { background-color: rgba(45, 212, 191, 0.16); }
+html.dark .app-shell .bg-brass-light\/40, html.dark .app-shell .bg-brass-light\/25 { background-color: rgba(245, 185, 59, 0.18); }
+html.dark .app-shell .bg-slate-400 { background-color: #475569; }
+html.dark .app-shell .border-brick\/30 { border-color: rgba(244, 63, 94, 0.4); }
+html.dark .app-shell .border-teal\/30, html.dark .app-shell .border-teal\/50 { border-color: rgba(110, 231, 183, 0.35); }
+html.dark .app-shell .border-brass\/30 { border-color: rgba(245, 185, 59, 0.35); }
+html.dark .app-shell .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #26324D; }
+html.dark .app-shell .ring-indigo-100 { --tw-ring-color: #26324D; }
+html.dark .app-shell .ring-blue-600, html.dark .app-shell .border-blue-600 { --tw-ring-color: #60A5FA; border-color: #60A5FA; }
+html.dark .app-shell .focus\:bg-white:focus { background-color: #0D1629; }
+html.dark .app-shell .text-amber-950 { color: #451a03; } /* stays dark on its amber pill */
+html.dark .app-shell .bg-amber-400, html.dark .app-shell .bg-amber-500 { color: #451a03; }
+@media (hover: hover) and (pointer: fine) {
+  html.dark .app-shell .hover\:bg-blue-50:hover { background-color: rgba(59, 130, 246, 0.16); }
+  html.dark .app-shell .hover\:bg-rose-50:hover { background-color: rgba(244, 63, 94, 0.16); }
+  html.dark .app-shell .hover\:bg-emerald-100:hover { background-color: rgba(16, 185, 129, 0.22); }
+  html.dark .app-shell .hover\:bg-teal\/25:hover { background-color: rgba(45, 212, 191, 0.26); }
+  html.dark .app-shell .hover\:bg-paper\/70:hover { background-color: #1B2742; }
+  html.dark .app-shell .hover\:border-slate-300:hover { border-color: #3F5180; }
+  html.dark .app-shell .hover\:text-blue-700:hover { color: #93C5FD; }
+  html.dark .app-shell .hover\:text-rose-600:hover { color: #FDA4AF; }
+  html.dark .app-shell .hover\:text-slate-500:hover { color: #CBD5E1; }
+}
+html.dark .app-shell .active\:bg-blue-50:active, html.dark .app-shell .active\:bg-blue-100:active { background-color: rgba(59, 130, 246, 0.22); }
+html.dark .app-shell .active\:bg-rose-50:active, html.dark .app-shell .active\:bg-rose-100:active { background-color: rgba(244, 63, 94, 0.22); }
+html.dark .app-shell .active\:bg-slate-100:active, html.dark .app-shell .active\:bg-slate-200:active, html.dark .app-shell .active\:bg-paper\/70:active { background-color: #26324D; }
+html.dark .app-shell .active\:text-slate-800:active { color: #F1F5F9; }
+html.dark .app-shell .active\:text-blue-700:active { color: #93C5FD; }
+html.dark .app-shell .active\:text-rose-600:active { color: #FDA4AF; }
+/* charts: slice outlines match the card, grid + cursor are quiet */
+html.dark .app-shell .recharts-pie-sector path, html.dark .app-shell .recharts-sector { stroke: #101A30; }
+html.dark .app-shell .recharts-cartesian-axis-line { stroke: #2B3A5C; }
+html.dark .app-shell .recharts-default-tooltip { box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55); }
+
+/* =====================================================================
+   LOG OUT DIALOG
+   ===================================================================== */
+.lo-orb {
+  color: #fff; background: linear-gradient(135deg, #fb7185, #e11d48);
+  box-shadow: 0 14px 30px -10px rgba(225, 29, 72, 0.65), 0 0 0 10px rgba(244, 63, 94, 0.1), 0 0 0 22px rgba(244, 63, 94, 0.05);
+  animation: loPulse 2.6s ease-in-out infinite;
+}
+@keyframes loPulse { 50% { box-shadow: 0 14px 30px -10px rgba(225, 29, 72, 0.65), 0 0 0 14px rgba(244, 63, 94, 0.12), 0 0 0 30px rgba(244, 63, 94, 0.04); } }
+.lo-confirm { background: linear-gradient(135deg, #fb7185, #e11d48); box-shadow: 0 12px 24px -10px rgba(225, 29, 72, 0.7); }
+html.dark .lo-orb { box-shadow: 0 14px 30px -10px rgba(225, 29, 72, 0.6), 0 0 0 10px rgba(244, 63, 94, 0.16), 0 0 0 22px rgba(244, 63, 94, 0.07); }
+@media (prefers-reduced-motion: reduce) { .lo-orb { animation: none; } }
+
+/* =====================================================================
+   LOGIN WELCOME SCREEN (components/WelcomeScreen.jsx)
+   ===================================================================== */
+.welcome-screen { animation: fade 0.2s ease-out; }
+.ws-bg {
+  background: radial-gradient(70% 60% at 50% 38%, rgba(245, 185, 59, 0.22), transparent 70%), linear-gradient(160deg, #0b1437 0%, #1a2a78 55%, #4338ca 100%);
+  clip-path: circle(0% at 50% 40%); animation: wsReveal 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+@keyframes wsReveal { to { clip-path: circle(150% at 50% 40%); } }
+.ws-badge { opacity: 0; transform: scale(0.6); animation: wsPop 0.6s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+@keyframes wsPop { to { opacity: 1; transform: scale(1); } }
+.ws-seal { animation: wsGlow 2.4s 0.9s ease-in-out infinite; }
+@keyframes wsGlow { 50% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0.18), 0 20px 40px -12px rgba(0, 0, 0, 0.5); } }
+.ws-ring { stroke-dasharray: 100; stroke-dashoffset: 100; animation: wsDraw 1s 0.35s ease-out forwards; }
+@keyframes wsDraw { to { stroke-dashoffset: 0; } }
+.ws-t1 { opacity: 0; animation: wsT1 1.15s 0.45s ease both; }
+@keyframes wsT1 { 0% { opacity: 0; transform: translateY(8px); } 25%, 70% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-8px); } }
+.ws-t2 { opacity: 0; animation: wsRise 0.55s 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.ws-t3 { opacity: 0; animation: wsRise 0.5s 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+@keyframes wsRise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.ws-progress { width: 0; animation: wsBar linear forwards; }
+@keyframes wsBar { to { width: 100%; } }
+.ws-spark { position: absolute; bottom: -10px; border-radius: 999px; background: #fbbf24; opacity: 0; pointer-events: none; animation: wsSpark 2.2s ease-out forwards; }
+@keyframes wsSpark { 0% { opacity: 0; transform: translateY(0) scale(0.6); } 20% { opacity: 0.9; } 100% { opacity: 0; transform: translateY(-70vh) scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .welcome-screen, .ws-bg { animation: none; clip-path: none; }
+  .ws-badge, .ws-t2, .ws-t3 { opacity: 1; transform: none; animation: none; }
+  .ws-seal, .ws-spark { animation: none; display: none; }
+  .ws-t1 { display: none; }
+  .ws-ring { stroke-dashoffset: 0; animation: none; }
+  .ws-progress { width: 100%; animation: none; }
+}

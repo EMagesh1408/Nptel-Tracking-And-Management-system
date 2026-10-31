@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+*.local
+.DS_Store
+
+# Uploaded certificate files -- these are real user data, not source code.
+# The folder itself is created automatically at server startup (see backend/middleware/upload.js).
+backend/uploads/
