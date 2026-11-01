@@ -8,7 +8,7 @@ import { useBodyLock } from "../hooks/useBodyLock";
 // when the line finishes (Layout.jsx), so the person always sees the whole thing.
 export default function SignOutScreen({ name, ms = 2000 }) {
   useBodyLock();
-  const first = (name || "").trim(); // full name, e.g. "Dr. S. Ramesh"
+  const first = (name || "").trim(); // full name, e.g. "Dr. Magesh kumar E" or "Dr. Magesh" or "Magesh" or "".
 
   return createPortal(
     <div className="signout-screen fixed inset-0 z-[200] flex items-center justify-center overflow-hidden" role="status" aria-live="polite">

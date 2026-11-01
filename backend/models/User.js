@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
   {
     // Account label shown in the accounts list, e.g. "Staff - Computer Science".
     name: { type: String, required: true, trim: true, maxlength: 80 },
-    // The real person's name, e.g. "Dr. S. Ramesh". Used in the greeting, header and profile card.
+    // The real person's name, e.g. "Dr. Magesh kumar E". Used in the greeting, header and profile card.
     fullName: { type: String, trim: true, maxlength: 80, default: "" },
     // What the person types to sign in. Admin can create and rename it at any time.
     username: {

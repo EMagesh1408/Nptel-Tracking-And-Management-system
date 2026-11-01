@@ -147,10 +147,10 @@ export default function UserFormModal({ user, onClose, onSave }) {
           </select>
         </Field>
 
-        <Field label={form.role === "hod" ? "HOD name" : "Staff name"} error={show("fullName")} span2 hint="Shown in the greeting and the top bar, e.g. Dr. S. Ramesh">
+        <Field label={form.role === "hod" ? "HOD name" : "Staff name"} error={show("fullName")} span2 hint="Shown in the greeting and the top bar, e.g. Dr. E. Magesh kumar or Mrs. E. Abinaya">
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"><UserIcon size={15} /></span>
-            <input className={`${inputCls("fullName")} pl-9`} value={form.fullName} onBlur={() => touch("fullName")} onChange={(e) => set({ fullName: e.target.value })} placeholder={form.role === "hod" ? "e.g. Dr. S. Ramesh" : "e.g. Mrs. K. Priya"} maxLength={80} />
+            <input className={`${inputCls("fullName")} pl-9`} value={form.fullName} onBlur={() => touch("fullName")} onChange={(e) => set({ fullName: e.target.value })} placeholder={form.role === "hod" ? "e.g. Dr. E. Magesh kumar" : "e.g. Mrs. E. Abinaya"} maxLength={80} />
           </div>
         </Field>
 

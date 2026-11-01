@@ -1,5 +1,5 @@
 // One place that decides how a signed-in person is named across the app.
-// `fullName` is the real person's name set by the admin (e.g. "Dr. S. Ramesh").
+// `fullName` is the real person's name set by the admin (e.g. "Dr. E. Magesh kumar").
 // Older accounts do not have one yet, so every helper falls back gracefully.
 
 export const ROLE_LABEL = { admin: "Administrator", hod: "Head of Programme", staff: "Staff" };
@@ -10,7 +10,7 @@ export const personName = (user) => (user?.fullName || "").trim() || (user?.name
 // True when the admin has entered the person's real name.
 export const hasPersonName = (user) => !!(user?.fullName || "").trim();
 
-// Honorifics and bare initials are skipped so "Dr. S. Ramesh" gives "R", not "DS".
+// Honorifics and bare initials are skipped so "Dr. E. Magesh kumar" gives "M", not "DE".
 const SKIP = /^(dr|prof|mr|mrs|ms|miss|sri|smt|er)\.?$/i;
 export const initialsOf = (user) => {
   const words = personName(user)
@@ -23,7 +23,7 @@ export const initialsOf = (user) => {
   return pick.map((w) => w[0].toUpperCase()).join("") || "?";
 };
 
-// Name for greetings ("Good afternoon, Dr. S. Ramesh"). Empty when an HOD / staff account has no
+// Name for greetings ("Good afternoon, Dr. E. Magesh kumar"). Empty when an HOD / staff account has no
 // real name yet, so the app never greets someone with an account label like "Hod-Computer science".
 export const greetName = (user) => {
   if ((user?.fullName || "").trim()) return user.fullName.trim();

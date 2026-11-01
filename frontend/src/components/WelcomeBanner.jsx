@@ -4,7 +4,7 @@ import { ShieldIcon, TargetIcon, ClockIcon } from "./Icons";
 import { greetName, initialsOf, greetingFor } from "../utils/person";
 
 // Header card at the top of every dashboard. It greets the person by their real name
-// (e.g. "Dr. S. Ramesh"); if an account has no name yet it shows the greeting alone rather than
+// (e.g. "Dr. E. Magesh kumar"); if an account has no name yet it shows the greeting alone rather than
 // an account label. Also shows today's date and time, a ring with the share of courses that are
 // "Qualified", and (for reviewers) how many certificates are waiting to be verified.
 export default function WelcomeBanner({ user, roleLabel, scope, summary, showPending = false, onPendingClick }) {
